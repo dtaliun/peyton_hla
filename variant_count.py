@@ -76,18 +76,22 @@ if __name__ == '__main__':
     x = BedTool()
     random_list = x.random(l=args.length, n=args.n_intervals, genome='hg19', seed=args.seed) # check random seed paramters
     
-    counts = []
-    for row in random_list:
-        chr_name = row[0]
-        pos1 = int(row[1])
-        pos2 = int(row[2])
-        print(chr_name, pos1, pos2)
+    # counts = []
     
-        random_vcf_name = chrom2vcf[chr_name]
-        count = count_variants(random_vcf_name, chr_name, pos1, pos2)
-        # count, count_af1, count_af5, count_ac1 = count_variants(...)
-        print(count)
-        counts.append(count)
+    with open("output_file_name.txt", "wt") as output_file:
+        for row in random_list:
+            chr_name = row[0]
+            pos1 = int(row[1])
+            pos2 = int(row[2])
+            print(chr_name, pos1, pos2)
+
+            random_vcf_name = chrom2vcf[chr_name]
+            count = count_variants(random_vcf_name, chr_name, pos1, pos2)
+            # count, count_af1, count_af5, count_ac1 = count_variants(...)
+            #print(count)
+            #counts.append(count)
+            output_file.write("{}\n".format("\t".join(str(x) for x in count)))
+        
     
     
     
